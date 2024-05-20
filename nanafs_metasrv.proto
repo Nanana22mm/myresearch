@@ -1,0 +1,14 @@
+syntax = "proto3";
+package nanafs_metaserver;
+
+service NanafsMetaServerRPC {
+    rpc Mount(MountRequest) returns (MountReply){}
+}
+
+message MountRequest {
+}
+message MountReply {
+    int32 server_num = 1;
+    string ipaddr = 2;
+    string port = 3;
+}

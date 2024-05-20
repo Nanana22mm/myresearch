@@ -1,0 +1,51 @@
+syntax = "proto3";
+package nanafs;
+
+service NanafsRPC {
+    rpc Open(OpenRequest) returns (OpenReply){}
+    rpc Read(ReadRequest) returns (ReadReply){}
+    rpc Close(CloseRequest) returns (CloseReply){}
+    rpc Readdir(ReaddirRequest) returns (ReaddirReply){}
+}
+
+message OpenRequest {
+    string pathname = 1;
+    // int32 flags = 2;
+    // int32 mode = 3;
+}
+message OpenReply {
+    int32 fd = 1;
+}
+
+message ReadRequest {
+    int32 fd = 1;
+    int32 count = 2;
+    int32 offset = 3;
+}
+message ReadReply {
+    bytes data = 1;
+    int32 len = 2;
+}
+
+message CloseRequest {
+    int32 fd = 1;
+}
+message CloseReply {
+    int32 result = 1; // 0 on success, -1 on failure
+}
+
+message ReaddirRequest {
+    string dirname = 1; 
+    // int32 fd = 2;
+    // uint32 count = 3;
+}
+message ReaddirReply {
+    uint32 filenum = 1;
+    string data = 2;
+}
+
+// Memo: 
+// mount is for getting server list from metadata server.
+// Therefore, the definition of mount do later.
+
+// open only prepare fd. open never do read or download data.
